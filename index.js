@@ -6,6 +6,8 @@ const sequelize = require('./config/bd');
 
 const roupa = require('./models/roupas');
 
+const usuario = require('./models/usuario')
+
 const produto = require('./models/produto');
 
 const app = express();
@@ -90,6 +92,85 @@ app.get(
   const roupas = await roupa.findByPk(1);
   await roupa.destroy();
 });
+
+
+
+app.get(
+  '/exercicio4',
+   async (req, res) => {
+
+    await Produto.create({
+        nome: 'Notebook',
+        preco: 3500
+    });
+
+    await Produto.create({
+        nome: 'Mouse',
+        preco: 80
+    });
+
+    await Produto.create({
+        nome: 'Teclado',
+        preco: 150
+    }
+  );
+
+    const produtos = await Produto.findAll();
+
+    console.log(produtos);
+
+    res.send('Produtos criados e listados!');
+});
+
+app.get(
+  '/exercicio5',
+   async (req, res) => {
+
+    const produto = await Produto.findByPk(1);
+
+    if (produto) {
+        console.log('Nome:', produto.nome);
+        console.log('Preço:', produto.preco);
+    }
+
+    res.send('Busca concluída!');
+});
+
+
+app.get('/exercicio6', async (req, res) => {
+
+    const produto = await Produto.findByPk(1);
+
+    if (produto) {
+        produto.preco = 4000;
+        await produto.save();
+
+        console.log(produto);
+    }
+
+    res.send('Produto atualizado!');
+});
+
+app.get('/exercicio7', async (req, res) => {
+
+    const produto = await Produto.findByPk(1);
+
+    if (produto) {
+        await produto.destroy();
+    }
+
+    const produtos = await Produto.findAll();
+
+    console.log(produtos);
+
+    res.send('Produto deletado!');
+});
+
+app.listen(3000, () => {
+    console.log('Servidor rodando na porta 3000');
+});
+
+
 
 
 
