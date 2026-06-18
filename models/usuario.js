@@ -10,6 +10,9 @@ const usuario = sequelize.define(
        email :{
          type : DataTypes.STRING,
        },
+       idade :{
+        type : DataTypes.NUMBER,
+       }
        
     }
 );

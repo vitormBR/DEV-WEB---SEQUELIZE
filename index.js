@@ -21,7 +21,7 @@ app.engine(
 app.set(
   'view engine',
   'handlebars'
-)
+);
 
 let roupas=[
   {
@@ -47,12 +47,12 @@ let roupas=[
     nome:"Boné",
     imagem:""
   },
-]
+];
 
 app.get(
   '/',
   (req,res) => res.render('listarroupas' , {roupas})
-)
+);
 
 
 app.get(
@@ -166,14 +166,45 @@ app.get('/exercicio7', async (req, res) => {
     res.send('Produto deletado!');
 });
 
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+app.get('/produtos', async (req, res) => {
+  const produtos = await produto.findAll();
+  res.json(produtos);
+});
+
+app.post('/produtos', async (req, res) => {
+  const { nome, preco } = req.body;
+  const novo = await produto.create({ nome, preco });
+  res.json(novo);
+});
+
+app.delete('/produtos/:id', async (req, res) => {
+  const { id } = req.params;
+  await produto.destroy({ where: { id } });
+  res.json({ mensagem: 'deletado' });
+});
+
+app.get('/usuarios', async (req, res) => {
+  const usuarios = await usuario.findAll({ raw: true });
+  res.render('usuarios', { usuarios });
 });
 
 
+app.get('/cadastrarUsuario', (req, res) => {
+  res.render('cadastrarUsuario');
+});
+
+app.post('/usuarios', async (req, res) => {
+  const { nome, email, idade } = req.body;
+  await usuario.create({ nome, email, idade });
+  res.redirect('/usuarios');
+});
 
 
-
+app.post('/usuarios/delete/:id', async (req, res) => {
+  const { id } = req.params;
+  await usuario.destroy({ where: { id } });
+  res.redirect('/usuarios');
+});
 
 
 

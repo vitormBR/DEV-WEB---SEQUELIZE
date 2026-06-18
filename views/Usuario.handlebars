@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Usuários</title>
+</head>
+<body>
+
+<h1>Lista de Usuários</h1>
+
+<a href="/cadastrarUsuario">Cadastrar novo usuário</a>
+
+<hr>
+
+<ul>
+  {{#each usuarios}}
+    <li>
+      Nome: {{nome}} <br>
+      Email: {{email}} <br>
+      Idade: {{idade}} <br>
+
+      <form action="/usuarios/delete/{{id}}" method="POST">
+        <button type="submit">Remover</button>
+      </form>
+
+      <hr>
+    </li>
+  {{/each}}
+</ul>
+
+</body>
+</html>
